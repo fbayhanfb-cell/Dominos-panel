@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#080b10">
+<title>Domino's | Restoran Yönetim Paneli</title>
+<style>
+:root {
+  color-scheme: dark;
+  --bg:#080b10; --navy:#203b63; --text:#f8fafc; --muted:#a9b4c4;
+  --blue:#dceaf8; --green:#e5f0dc; --peach:#f7e3d6;
+}
+* { box-sizing:border-box; }
+body {
+  margin:0; min-height:100vh; background:
+    radial-gradient(ellipse at 10% 0%, rgba(44,75,120,.24), transparent 38%),
+    var(--bg);
+  color:var(--text); font-family:Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+.shell { width:min(1120px, calc(100% - 40px)); margin:34px auto 44px; }
+.topbar {
+  background:linear-gradient(135deg,#203b63,#1b3152);
+  border:1px solid rgba(255,255,255,.08); border-radius:24px;
+  padding:30px 34px; box-shadow:0 18px 55px rgba(0,0,0,.28);
+  display:flex; align-items:center; justify-content:space-between; gap:20px;
+}
+.brand { display:flex; align-items:center; gap:18px; }
+.brand-mark {
+  width:54px;height:54px;border-radius:16px;display:grid;place-items:center;
+  background:rgba(255,255,255,.12);font-size:24px;font-weight:850;letter-spacing:-2px;
+  border:1px solid rgba(255,255,255,.16);
+}
+.eyebrow { font-size:11px; font-weight:800; letter-spacing:.18em; opacity:.76; margin-bottom:6px; }
+h1 { font-size:clamp(23px,3.2vw,34px); line-height:1.12; margin:0; letter-spacing:-.035em; }
+.subtitle { margin:9px 0 0; color:#d8e1ef; font-size:14px; }
+.status { display:flex;align-items:center;gap:9px;font-size:12px;color:#dbeafe;white-space:nowrap; }
+.status-dot { width:8px;height:8px;border-radius:50%;background:#69d6a4;box-shadow:0 0 0 4px rgba(105,214,164,.12); }
+.section-head { display:flex; align-items:end; justify-content:space-between; margin:30px 2px 15px; gap:12px; }
+.section-head h2 { font-size:13px; letter-spacing:.14em; margin:0; color:#dce5f2; }
+.section-head p { margin:0; color:var(--muted); font-size:12px; }
+.grid { display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px; }
+.card {
+  position:relative; min-height:154px; border-radius:19px; padding:22px 24px 19px;
+  color:#111827; text-decoration:none; display:flex; flex-direction:column;
+  align-items:center; justify-content:center; text-align:center; gap:11px;
+  border:1px solid rgba(255,255,255,.38);
+  box-shadow:0 5px 0 rgba(0,0,0,.13), 0 12px 28px rgba(0,0,0,.14);
+  transition:transform .16s ease, box-shadow .16s ease, filter .16s ease;
+  overflow:hidden;
+}
+.card::before { content:"";position:absolute;inset:0;background:linear-gradient(145deg,rgba(255,255,255,.28),transparent 52%);pointer-events:none; }
+.card:hover { transform:translateY(-3px);box-shadow:0 8px 0 rgba(0,0,0,.12),0 18px 32px rgba(0,0,0,.22);filter:saturate(1.04); }
+.card:focus-visible { outline:3px solid #78a6ff;outline-offset:4px; }
+.card.blue { background:var(--blue); }
+.card.green { background:var(--green); }
+.card.peach { background:var(--peach); }
+.card-icon { width:30px;height:30px;display:block; }
+.card-icon svg { width:30px;height:30px; }
+.card-title { font-size:clamp(16px,1.7vw,21px);font-weight:780;letter-spacing:-.025em;line-height:1.22; }
+.card-hint { font-size:12px;color:#4b5563;opacity:.9; }
+.arrow { position:absolute;right:16px;top:14px;font-size:17px;color:rgba(17,24,39,.55); }
+.footer { display:flex;justify-content:space-between;gap:16px;color:#7f8a9b;font-size:12px;margin:22px 2px 0; }
+@media(min-width:900px) { .grid { grid-template-columns:repeat(3,minmax(0,1fr)); } .card { min-height:174px; } }
+@media(max-width:560px) {
+  .shell { width:calc(100% - 24px);margin:12px auto 24px; }
+  .topbar { padding:22px 18px;border-radius:19px;align-items:flex-start; }
+  .brand { gap:12px; } .brand-mark { width:43px;height:43px;border-radius:13px;font-size:20px; }
+  .status { display:none; } .subtitle { font-size:12px; }
+  .section-head { margin-top:23px;align-items:start;flex-direction:column;gap:6px; }
+  .grid { gap:10px; }
+  .card { min-height:138px;padding:17px 9px 14px;border-radius:15px;gap:9px; }
+  .card-icon,.card-icon svg { width:26px;height:26px; }
+  .card-title { font-size:15px; }
+  .card-hint { font-size:10px; }
+  .arrow { right:10px;top:8px;font-size:14px; }
+  .footer { flex-direction:column;gap:5px;font-size:11px; }
+}
+@media(prefers-reduced-motion:reduce) { * { transition:none !important; } }
+</style>
+</head>
+<body>
+<main class="shell">
+  <header class="topbar">
+    <div class="brand">
+      <div class="brand-mark" aria-hidden="true">D<span style="color:#ffb2a5">•</span></div>
+      <div>
+        <div class="eyebrow">DOMINO'S</div>
+        <h1>RESTORAN YÖNETİM PANELİ</h1>
+        <p class="subtitle">Günlük operasyonların için tek noktadan hızlı erişim.</p>
+      </div>
+    </div>
+    <div class="status"><span class="status-dot"></span> Hızlı erişim paneli</div>
+  </header>
+  <div class="section-head">
+    <h2>HIZLI ERİŞİM</h2>
+    <p>12 bağlantı · Bir karta tıklayarak aç</p>
+  </div>
+  <section class="grid" aria-label="Restoran yönetim bağlantıları">
+    
+      <a class="card blue" href="https://365dominos-my.sharepoint.com/:x:/r/personal/tekirdag_cerkezkoytepekent_sube_dominospizza_com_tr/_layouts/15/Doc.aspx?sourcedoc=%7BE1FA530F-7D38-4E46-B143-3F848270DF91%7D&amp;file=AYLIK%20MESA%C4%B0%20TABLOSU%202025.xlsx&amp;action=default&amp;mobileredirect=true" target="_blank" rel="noopener noreferrer" aria-label="PUANTAJ bağlantısını yeni sekmede aç">
+        <span class="card-icon"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M16 3v4M8 3v4M3 10h18M9 15l2 2 4-4"/></svg></span>
+        <span class="card-title">PUANTAJ</span>
+        <span class="card-hint">Aylık mesai ve puantaj</span>
+        <span class="arrow" aria-hidden="true">↗</span>
+      </a>
+      <a class="card green" href="https://365dominos-my.sharepoint.com/:x:/r/personal/tekirdag_cerkezkoytepekent_sube_dominospizza_com_tr/_layouts/15/Doc.aspx?sourcedoc=%7BEF15D903-9F09-46CF-8117-FEDBCED7C684%7D&amp;file=SHIFT.xlsx&amp;action=default&amp;mobileredirect=true&amp;DefaultItemOpen=1&amp;ct=1735914321811&amp;wdOrigin=OFFICECOM-WEB.MAIN.REC&amp;cid=f96df686-35bc-4011-894a-b9aa559b3471&amp;wdPreviousSessionSrc=HarmonyWeb&amp;wdPreviousSession=db90b4ea-e522-4aa9-ab8f-b235e54ce175" target="_blank" rel="noopener noreferrer" aria-label="SHIFT bağlantısını yeni sekmede aç">
+        <span class="card-icon"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l-3 2"/></svg></span>
+        <span class="card-title">SHIFT</span>
+        <span class="card-hint">Vardiya planını aç</span>
+        <span class="arrow" aria-hidden="true">↗</span>
+      </a>
+      <a class="card blue" href="https://365dominos-my.sharepoint.com/:x:/r/personal/tekirdag_cerkezkoytepekent_sube_dominospizza_com_tr/_layouts/15/Doc.aspx?sourcedoc=%7B45D4313E-DA50-476C-8E26-A357EE2A4AD9%7D&amp;file=Kitap%201.xlsx&amp;action=default&amp;mobileredirect=true&amp;wdOrigin=OFFICE-OFFICE-METAOS.FILEBROWSER.FILES-HOME" target="_blank" rel="noopener noreferrer" aria-label="PRİM bağlantısını yeni sekmede aç">
+        <span class="card-icon"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6.5A2.5 2.5 0 0 1 6.5 4H20v16H6a3 3 0 0 1-3-3V6.5Z"/><path d="M3 7h17M16 12h4v4h-4a2 2 0 0 1 0-4Z"/></svg></span>
+        <span class="card-title">PRİM</span>
+        <span class="card-hint">Prim dosyasını aç</span>
+        <span class="arrow" aria-hidden="true">↗</span>
+      </a>
+      <a class="card green" href="https://365dominos-my.sharepoint.com/:x:/r/personal/tekirdag_cerkezkoytepekent_sube_dominospizza_com_tr/_layouts/15/doc.aspx?sourcedoc=%7B9f75c584-c5e3-4793-a83e-9ffc385290df%7D&amp;action=edit" target="_blank" rel="noopener noreferrer" aria-label="CİRO ORDER bağlantısını yeni sekmede aç">
+        <span class="card-icon"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="m7 14 4-4 3 3 6-7"/><path d="M17 6h3v3"/></svg></span>
+        <span class="card-title">CİRO ORDER</span>
+        <span class="card-hint">Ciro ve sipariş takibi</span>
+        <span class="arrow" aria-hidden="true">↗</span>
+      </a>
+      <a class="card blue" href="https://365dominos-my.sharepoint.com/:x:/r/personal/tekirdag_cerkezkoytepekent_sube_dominospizza_com_tr/Documents/Tepekent_Tek_Subeli_Okunakli.xlsx?d=wdddcc3baec594253884d4fd2e59cc7a9&amp;csf=1&amp;web=1&amp;e=vo08WW" target="_blank" rel="noopener noreferrer" aria-label="KASA RAPORU Excel dosyasını aç">
+        <span class="card-icon"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M8 7h8M8 11h2m4 0h2M8 15h2m4 0h2M8 18h2m4 0h2"/></svg></span>
+        <span class="card-title">KASA RAPORU</span>
+        <span class="card-hint">Tepekent şubesi aylık kasa raporu</span>
+        <span class="arrow" aria-hidden="true">↗</span>
+      </a>
+      <a class="card green" href="https://commissarysiparis.dominos.com.tr/tr/login" target="_blank" rel="noopener noreferrer" aria-label="SEVKİYAT bağlantısını yeni sekmede aç">
+        <span class="card-icon"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h11v12H3z"/><path d="M14 10h4l3 3v5h-7z"/><circle cx="7.5" cy="18.5" r="1.5"/><circle cx="17.5" cy="18.5" r="1.5"/></svg></span>
+        <span class="card-title">SEVKİYAT</span>
+        <span class="card-hint">Sipariş sistemine git</span>
+        <span class="arrow" aria-hidden="true">↗</span>
+      </a>
+      <a class="card blue" href="https://365dominos-my.sharepoint.com/:w:/r/personal/tekirdag_cerkezkoytepekent_sube_dominospizza_com_tr/_layouts/15/Doc.aspx?sourcedoc=%7B40B81CA4-08B4-4E99-B33E-EAF775F0D11C%7D&amp;file=I%25u0307stifa%20Dilekc%25u0327esi.docx&amp;action=default&amp;mobileredirect=true" target="_blank" rel="noopener noreferrer" aria-label="İSTİFA DİLEKÇESİ bağlantısını yeni sekmede aç">
+        <span class="card-icon"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 3h7l5 5v13H7a3 3 0 0 1-3-3V6a3 3 0 0 1 3-3Z"/><path d="M14 3v5h5M8 13h6M8 17h6"/></svg></span>
+        <span class="card-title">İSTİFA DİLEKÇESİ</span>
+        <span class="card-hint">Dilekçe belgesini aç</span>
+        <span class="arrow" aria-hidden="true">↗</span>
+      </a>
+      <a class="card green" href="https://365dominos-my.sharepoint.com/:x:/r/personal/tekirdag_cerkezkoytepekent_sube_dominospizza_com_tr/_layouts/15/doc.aspx?sourcedoc=%7Bee25ef16-8875-4883-b903-45891f74a02b%7D&amp;action=edit" target="_blank" rel="noopener noreferrer" aria-label="ISI KONTROL bağlantısını yeni sekmede aç">
+        <span class="card-icon"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 14.8V5a2 2 0 0 0-4 0v9.8a4 4 0 1 0 4 0Z"/><path d="M12 11v7"/></svg></span>
+        <span class="card-title">ISI KONTROL</span>
+        <span class="card-hint">Isı kontrol formu</span>
+        <span class="arrow" aria-hidden="true">↗</span>
+      </a>
+      <a class="card blue" href="https://365dominos-my.sharepoint.com/:w:/r/personal/tekirdag_cerkezkoytepekent_sube_dominospizza_com_tr/_layouts/15/Doc.aspx?sourcedoc=%7BF44A9558-228B-4B10-8CBD-1BDBF573B82D%7D&amp;file=G%C3%9CNL%C3%9CK%20SAYIM%201.docx&amp;action=default&amp;mobileredirect=true&amp;DefaultItemOpen=1" target="_blank" rel="noopener noreferrer" aria-label="GÜNLÜK SAYIM bağlantısını yeni sekmede aç">
+        <span class="card-icon"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="5" width="14" height="16" rx="2"/><path d="M9 5V3h6v2M8 10h8M8 14h8M8 18h5"/></svg></span>
+        <span class="card-title">GÜNLÜK SAYIM</span>
+        <span class="card-hint">Günlük sayım dosyası</span>
+        <span class="arrow" aria-hidden="true">↗</span>
+      </a>
+      <a class="card peach" href="https://app.powerbi.com/groups/7c2a2ad2-bd54-42d5-86b3-ecc9f11fccb5/dashboards/d642587c-ad66-492e-9655-ddd38cb7755a?experience=power-bi" target="_blank" rel="noopener noreferrer" aria-label="POWER BI bağlantısını yeni sekmede aç">
+        <span class="card-icon"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="13" width="4" height="7" rx="1"/><rect x="10" y="8" width="4" height="12" rx="1"/><rect x="16" y="4" width="4" height="16" rx="1"/></svg></span>
+        <span class="card-title">POWER BI</span>
+        <span class="card-hint">Performans panelini aç</span>
+        <span class="arrow" aria-hidden="true">↗</span>
+      </a>
+      <a class="card peach" href="https://365dominos-my.sharepoint.com/:x:/r/personal/tekirdag_cerkezkoytepekent_sube_dominospizza_com_tr/_layouts/15/Doc.aspx?sourcedoc=%7B8AF8AF21-243D-4DE8-AC0A-30091F430F4F%7D&amp;file=SEVKI%CC%87YAT%20LI%CC%87STESI%CC%87%201.xlsx&amp;action=default&amp;mobileredirect=true&amp;DefaultItemOpen=1" target="_blank" rel="noopener noreferrer" aria-label="SEVKİYAT RAPORU bağlantısını yeni sekmede aç">
+        <span class="card-icon"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h11v12H3z"/><path d="M14 10h4l3 3v5h-7z"/><circle cx="7.5" cy="18.5" r="1.5"/><circle cx="17.5" cy="18.5" r="1.5"/></svg></span>
+        <span class="card-title">SEVKİYAT RAPORU</span>
+        <span class="card-hint">Sevkiyat raporunu aç</span>
+        <span class="arrow" aria-hidden="true">↗</span>
+      </a>
+      <a class="card peach" href="https://gps.dominos.com.tr/" target="_blank" rel="noopener noreferrer" aria-label="GPS DOMINO&#x27;S bağlantısını yeni sekmede aç">
+        <span class="card-icon"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 5-8 11-8 11S4 15 4 10a8 8 0 1 1 16 0Z"/><circle cx="12" cy="10" r="2.5"/></svg></span>
+        <span class="card-title">GPS DOMINO&#x27;S</span>
+        <span class="card-hint">GPS sistemini aç</span>
+        <span class="arrow" aria-hidden="true">↗</span>
+      </a>
+  </section>
+  <footer class="footer">
+    <span>Domino's · Restoran Yönetim Paneli</span>
+    <span>Bağlantılar yeni sekmede açılır.</span>
+  </footer>
+</main>
+</body>
+</html>
